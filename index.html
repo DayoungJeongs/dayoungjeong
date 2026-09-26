@@ -132,6 +132,12 @@
         var extent = text.getExtentOfChar(index);
         var x = extent.x + extent.width * (n === 2 ? 0.85 : 0.5);
         var y = extent.y + extent.height * (n === 2 ? 0.45 : 0.35);
+        if (n === 0) {
+          // Anchor the first glint to D's lower-left entry stroke, not its advance box.
+          var fontSize = parseFloat(window.getComputedStyle(text).fontSize);
+          x = box.x + fontSize * 0.06;
+          y = text.getStartPositionOfChar(0).y - fontSize * 0.025;
+        }
         var group = document.querySelector('.sparkle-' + (n + 1));
         group.setAttribute('transform', 'translate(' + x + ',' + y + ')');
         return {path: group.querySelector('path'), delay: Math.max(80, (x - left) / width * duration)};
