@@ -1,7 +1,5 @@
 # Dayoung Jeong — Culture & Essays
 
-Independent cultural website for https://dayoungjeong.com/.
+Independent cultural website, published with GitHub Pages at https://dayoungjeong.com/.
 
-Static HTML/CSS with the original animated signature and sparkles. Published from the main branch root using GitHub Pages.
-
-This repository contains only the cultural site. It has independent version history, deployment settings and domain configuration.
+The current landing page displays the name and Coming soon in plain text.

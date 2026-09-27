@@ -11,157 +11,17 @@
 <meta property="og:url" content="https://dayoungjeong.com/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
-<link rel="preload" href="assets/fonts/PinyonScript.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="stylesheet" href="style.css">
-<script>document.documentElement.classList.add("signature-js");</script>
 <style>
-  @font-face {
-    font-family: 'Pinyon Script';
-    src: url('assets/fonts/PinyonScript.ttf') format('truetype');
-    font-display: block;
-  }
-
-  .intro-screen {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    background: var(--color-bg);
-  }
-
-  /* On phones the signature otherwise sits slightly below true center;
-     nudge it up by biasing the flex alignment rather than changing the
-     SVG's internal text position (which would also shift the desktop
-     layout, where the current position already looks right). */
-  @media (max-width: 600px) {
-    .intro-screen {
-      align-items: flex-start;
-      padding-top: 35vh;
-    }
-  }
-
-  .intro-link {
-    border-bottom: none;
-    display: block;
-  }
-
-  .intro-svg {
-    width: min(88vw, 900px);
-    height: auto;
-    overflow: visible;
-  }
-
-  .intro-svg text {
-    font-family: 'Pinyon Script', 'Brush Script MT', cursive;
-    /* Scales with viewport width but is capped. Larger overall than before
-       on both ends: bigger minimum on phones, and a noticeably bigger
-       maximum on desktop so the signature reads as a real focal point. */
-    font-size: clamp(130px, 30vw, 140px);
-    letter-spacing: 0;
-    font-kerning: normal;
-    fill: var(--color-accent);
-    stroke: var(--color-accent);
-    stroke-width: 2.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  /* Keep cursive shaping intact; reveal the complete text as one surface. */
-  .signature-js .intro-svg { visibility: hidden; }
-  .signature-js .intro-svg.is-ready { visibility: visible; }
-
-  .intro-sparkle {
-    opacity: 0;
-    transform-origin: center;
-    transform-box: fill-box;
-    fill: #f6d98a;
-
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .intro-sparkle {
-      display: none;
-    }
-  }
-  .intro-screen { position: relative; }
+main { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; font-family: Arial, Helvetica, sans-serif; }
+h1 { margin: 0; color: var(--color-accent); font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 400; line-height: 1.2; }
+p { margin: 1rem 0 0; color: #666; font-size: 1rem; line-height: 1.5; }
 </style>
 </head>
 <body>
-
-<main class="intro-screen">
-  <div class="intro-link" role="img" aria-label="Dayoung Jeong signature">
-    <svg class="intro-svg" viewBox="0 0 900 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-      <defs><clipPath id="signature-clip" clipPathUnits="userSpaceOnUse"><rect id="signature-reveal" x="-100" y="-100" width="1100" height="500" /></clipPath></defs>
-      <text clip-path="url(#signature-clip)" x="450" y="150" text-anchor="middle" id="signature">Dayoung Jeong</text>
-      <!-- Sparkles start only after the loaded font has been measured. -->
-      <g class="sparkle-1"><path class="intro-sparkle" d="M0,-11 C0.8,-3.5 3.5,-0.8 11,0 C3.5,0.8 0.8,3.5 0,11 C-0.8,3.5 -3.5,0.8 -11,0 C-3.5,-0.8 -0.8,-3.5 0,-11 Z" /></g>
-      <g class="sparkle-2"><path class="intro-sparkle" d="M0,-13 C1,-4 4,-1 13,0 C4,1 1,4 0,13 C-1,4 -4,1 -13,0 C-4,-1 -1,-4 0,-13 Z" /></g>
-      <g class="sparkle-3"><path class="intro-sparkle" d="M0,-13 C1,-4 4,-1 13,0 C4,1 1,4 0,13 C-1,4 -4,1 -13,0 C-4,-1 -1,-4 0,-13 Z" /></g>
-    </svg>
-  </div>
+<main>
+<h1>Dayoung Jeong</h1>
+<p>Coming soon</p>
 </main>
-
-<script>
-(function () {
-  var svg = document.querySelector('.intro-svg');
-  var text = document.getElementById('signature');
-  var reveal = document.getElementById('signature-reveal');
-  var duration = 1800;
-  var started = false;
-  function showStatic() {
-    reveal.setAttribute('x', '-100');
-    reveal.setAttribute('width', '1100');
-    svg.classList.add('is-ready');
-  }
-  function start() {
-    if (started) return;
-    started = true;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !reveal.animate) {
-      showStatic();
-      return;
-    }
-    try {
-      var box = text.getBBox();
-      if (!box.width) { showStatic(); return; }
-      var left = box.x - 5;
-      var width = box.width + 10;
-      reveal.setAttribute('x', left);
-      reveal.setAttribute('width', '0');
-      var sparkleData = [0, 8, text.textContent.length - 1].map(function (index, n) {
-        var extent = text.getExtentOfChar(index);
-        var x = extent.x + extent.width * (n === 2 ? 0.85 : 0.5);
-        var y = extent.y + extent.height * (n === 2 ? 0.45 : 0.35);
-        if (n === 0) {
-          // Anchor the first glint to D's upper-left curve, with a slight overlap on the ink.
-          var fontSize = parseFloat(window.getComputedStyle(text).fontSize);
-          x = box.x + fontSize * 0.32;
-          y = text.getStartPositionOfChar(0).y - fontSize * 0.54;
-        }
-        var group = document.querySelector('.sparkle-' + (n + 1));
-        group.setAttribute('transform', 'translate(' + x + ',' + y + ')');
-        return {path: group.querySelector('path'), delay: Math.max(80, (x - left) / width * duration)};
-      });
-      svg.classList.add('is-ready');
-      reveal.animate([{width: '0px'}, {width: width + 'px'}], {
-        duration: duration, easing: 'linear', fill: 'forwards'
-      });
-      sparkleData.forEach(function (item) {
-        item.path.animate([
-          {opacity: 0, transform: 'scale(0.35)'},
-          {opacity: 0.85, transform: 'scale(1)', offset: 0.45},
-          {opacity: 0, transform: 'scale(0.5)'}
-        ], {duration: 650, delay: item.delay, easing: 'ease-in-out', fill: 'both'});
-      });
-    } catch (error) { showStatic(); }
-  }
-  if (document.fonts && document.fonts.load) {
-    document.fonts.load('140px "Pinyon Script"', text.textContent).then(function () {
-      return document.fonts.ready;
-    }).then(function () { requestAnimationFrame(start); }, showStatic);
-  } else { showStatic(); }
-})();
-</script>
-
 </body>
 </html>
